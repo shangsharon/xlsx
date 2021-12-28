@@ -66,7 +66,8 @@ func (s *Sheet) getState() string {
 }
 
 type SheetView struct {
-	Pane *Pane
+	Pane      *Pane
+	ZoomScale float64
 }
 
 type Pane struct {
@@ -505,7 +506,9 @@ func (s *Sheet) makeSheetView(worksheet *xlsxWorksheet) {
 				ActivePane:  sheetView.Pane.ActivePane,
 				State:       sheetView.Pane.State,
 			}
-
+		}
+		if sheetView.ZoomScale > 10 || sheetView.ZoomScale < 400 {
+			worksheet.SheetViews.SheetView[index].ZoomScale = sheetView.ZoomScale
 		}
 	}
 	if s.Selected {
